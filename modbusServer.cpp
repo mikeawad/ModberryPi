@@ -38,7 +38,7 @@ void parseFunction(const uint8_t * mBuffer)
     printf("Protocol ID: %02x%02x\n",mBuffer[2], mBuffer[3]);
     printf("Length: %02x%02x\n",mBuffer[4], mBuffer[5]);
     printf("Unit ID: %02x\n",mBuffer[6]);
-    printf("FC: %02x\n",mBuffer[7]);
+    printf("FC: %02x\n\n",mBuffer[7]);
 }
 
 
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
     struct sockaddr_in serv_addr, cli_addr;       // structs to hold connection information
 
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    printf("Debug: sockfd = %d\n, ", sockfd);
+    //printf("Debug: sockfd = %d\n, ", sockfd);
     if (sockfd < 0)
     {
         error("Error opening socket");
@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
         error("Error on accept");
     }
 
-    printf("Server: got connection from %s port %d\n", inet_ntoa(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
+    printf("\n*** Server: got connection from %s on port %d *** \n\n", inet_ntoa(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
     bzero(buffer, BUFFER_SIZE);
 
     for(;;)
