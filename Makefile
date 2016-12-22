@@ -23,3 +23,5 @@ $(TARGET): $(OBJS)
 clean:
 	rm -f *.o $(TARGET)
 
+run:
+	sudo ./$(TARGET)

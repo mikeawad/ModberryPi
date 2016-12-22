@@ -60,11 +60,11 @@ int main(int argc, char *argv[])
         commsSocket,                              // socket file descriptor for communication on bound socket
         byteCount;
     socklen_t clilen;                             // get size of client ip address, needed for accept()
-    uint8_t buffer[BUFFER_SIZE];                           // character buffer
+    uint8_t buffer[BUFFER_SIZE];                  // data buffer of size BUFFER_SIZE bytes
     struct sockaddr_in serv_addr, cli_addr;       // structs to hold connection information
 
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    //printf("Debug: sockfd = %d\n, ", sockfd);
+
     if (sockfd < 0)
     {
         error("Error opening socket");
@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
     for(;;)
     {
         byteCount = recv(commsSocket, buffer, BUFFER_SIZE, 0);
-        //byteCount = read(commsSocket, buffer, 260);
+
         if (byteCount < 0)
         {
             error("error reading from socket");
