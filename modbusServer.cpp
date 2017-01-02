@@ -1,8 +1,6 @@
 
 #include "headers.h"
 
-#define BUFFER_SIZE 260
-#define PORT_502 502
 
 using namespace std;
 
@@ -54,7 +52,8 @@ int main(int argc, char *argv[])
     socklen_t clilen;                             // get size of client ip address, needed for accept()
     uint8_t buffer[BUFFER_SIZE];                  // data buffer of size BUFFER_SIZE bytes
     struct sockaddr_in serv_addr, cli_addr;       // structs to hold connection information
-
+	
+	backUpRegister();
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
     if (sockfd < 0)
