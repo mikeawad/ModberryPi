@@ -1,0 +1,19 @@
+#+-----------------------------------------------------------------------------------+
+  #This file will allow git to ignore any files listed here to exclude from tracking.
+  #Note that the files here reflect only a linux enviroment at the moment.If moving 
+  #or working on a different OS this file will have to be modified to reflect. 
+#+-----------------------------------------------------------------------------------+
+
+
+#Don't need to track object files
+*.o
+
+
+
+#Don't need to track .save files (although i'm not sure what purpose they serve, very likely backup)
+*.save
+
+
+
+#Don't need to track the linux executable. Note that the TARGET file in the Makefile is set to mbpi, if that changes this file will need to be updated.
+mpbi
