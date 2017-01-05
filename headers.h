@@ -18,10 +18,12 @@
 #define BUFFER_SIZE 260
 #define PORT_502 502
 #define HOLDING_OFFSET 40001
-
+#define DEBUG_MODE 1
 
 
 
 /// PROTOTYPES
 void  backUpRegister();
+void regCounter();
+void parseRequest(const uint8_t * mBuffer);
 

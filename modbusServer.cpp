@@ -12,25 +12,6 @@ void error(const char *msg)
     exit(1);
 }
 
-int getLength(const uint8_t * _buffer)
-{
-    int len = 0;
-    for (int i = 0; _buffer[i] != 'A'; i++ )
-        len++;
-    return len;
-
-}
-
-
-void parseFunction(const uint8_t * mBuffer)
-{
-    printf("Transaction ID: %02x%02x\n",mBuffer[0], mBuffer[1]);
-    printf("Protocol ID: %02x%02x\n",mBuffer[2], mBuffer[3]);
-    printf("Length: %02x%02x\n",mBuffer[4], mBuffer[5]);
-    printf("Unit ID: %02x\n",mBuffer[6]);
-    printf("FC: %02x\n\n",mBuffer[7]);
-}
-
 
 // temporary function
 void buildresponse(uint8_t * mBuffer)
@@ -52,8 +33,9 @@ int main(int argc, char *argv[])
     socklen_t clilen;                             // get size of client ip address, needed for accept()
     uint8_t buffer[BUFFER_SIZE];                  // data buffer of size BUFFER_SIZE bytes
     struct sockaddr_in serv_addr, cli_addr;       // structs to hold connection information
-	
-	backUpRegister();
+    
+    backUpRegister();
+    regCounter();
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
     if (sockfd < 0)
@@ -98,17 +80,17 @@ int main(int argc, char *argv[])
         {
             printf("%02x ", buffer[i]);
         }
-
         printf("\n");
-        cout << "Message length (bytes): " << byteCount << endl;
-        parseFunction(buffer);
-        buildresponse(buffer);
 
+        parseRequest(buffer);
+        buildresponse(buffer);
+/*
         cout << "Modbus message out: ";
         for (int i = 0; i < byteCount; i++)
         {
             printf("%02x ", buffer[i]);
         }
+*/
         printf("\n");
 
         int sentVale = send(commsSocket, buffer, BUFFER_SIZE, 0);
