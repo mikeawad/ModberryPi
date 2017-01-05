@@ -26,4 +26,4 @@
 void  backUpRegister();
 void regCounter();
 void parseRequest(const uint8_t * mBuffer);
-
+void buildresponse(uint8_t * mBuffer);

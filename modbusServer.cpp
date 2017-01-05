@@ -13,25 +13,14 @@ void error(const char *msg)
 }
 
 
-// temporary function
-void buildresponse(uint8_t * mBuffer)
-{
-    mBuffer[8] = 0xCD;
-    mBuffer[9] = 0x6B;
-    mBuffer[10] = 0xB2;
-    mBuffer[11] = 0x0E;
-    mBuffer[12] =0x1B;
-    mBuffer[5] = 0x5;
-
-}
-
 int main(int argc, char *argv[])
 {
     int sockfd,                                   // socket file descriptor for binding to port for connections
         commsSocket,                              // socket file descriptor for communication on bound socket
         byteCount;
     socklen_t clilen;                             // get size of client ip address, needed for accept()
-    uint8_t buffer[BUFFER_SIZE];                  // data buffer of size BUFFER_SIZE bytes
+    uint8_t incomingBuffer[BUFFER_SIZE];          // data buffer of size BUFFER_SIZE bytes
+    uint8_t outgoingBuffer[BUFFER_SIZE];	  // return request buffer 
     struct sockaddr_in serv_addr, cli_addr;       // structs to hold connection information
     
     backUpRegister();
@@ -64,11 +53,11 @@ int main(int argc, char *argv[])
     }
 
     printf("\n*** Server: got connection from %s on port %d *** \n\n", inet_ntoa(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
-    bzero(buffer, BUFFER_SIZE);
+    bzero(incomingBuffer, BUFFER_SIZE);
 
     for(;;)
     {
-        byteCount = recv(commsSocket, buffer, BUFFER_SIZE, 0);
+        byteCount = recv(commsSocket,incomingBuffer, BUFFER_SIZE, 0);
 
         if (byteCount < 0)
         {
@@ -78,23 +67,15 @@ int main(int argc, char *argv[])
         cout << "Modubus message in: ";
         for (int i = 0; i < byteCount; i++)
         {
-            printf("%02x ", buffer[i]);
+            printf("%02x ", incomingBuffer[i]);
         }
         printf("\n");
 
-        parseRequest(buffer);
-        buildresponse(buffer);
-/*
-        cout << "Modbus message out: ";
-        for (int i = 0; i < byteCount; i++)
-        {
-            printf("%02x ", buffer[i]);
-        }
-*/
-        printf("\n");
+        parseRequest(incomingBuffer);
 
-        int sentVale = send(commsSocket, buffer, BUFFER_SIZE, 0);
+        int sentVale = send(commsSocket, incomingBuffer, BUFFER_SIZE, 0);
     }
+
     close(sockfd);
     close(commsSocket);
 
