@@ -25,5 +25,6 @@
 /// PROTOTYPES
 void  backUpRegister();
 void regCounter();
-void parseRequest(const uint8_t * mBuffer);
-void buildresponse(uint8_t * mBuffer);
+void parseRequest(const uint8_t * mBuffer, uint8_t * nBuffer);
+void buildresponse(uint8_t * rBuffer);
+
