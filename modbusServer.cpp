@@ -72,14 +72,7 @@ Socket connection
             error("error reading from socket");
         }
 
-        cout << "Modubus message in: ";
-        for (int i = 0; i < byteCount; i++)
-        {
-            printf("%02x ", incomingBuffer[i]);
-        }
-        printf("\n");
-
-        parseRequest(incomingBuffer, outgoingBuffer);
+        parseRequest(incomingBuffer,byteCount, outgoingBuffer);
 
         int sentVale = send(commsSocket, incomingBuffer, BUFFER_SIZE, 0);
     }

@@ -1,11 +1,11 @@
 #include "headers.h"
-/*
+/*+-----------------------------------------------------------------+
 
 This will serve as the anlaog input holding registers array.
 Address range from 0000h to 270Eh (40001-49999)
 Access type: Read/Write
 
-*/
++-------------------------------------------------------------------+*/
 
 uint16_t analogInputHoldingRegisters[9998];
 

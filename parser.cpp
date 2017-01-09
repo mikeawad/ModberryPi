@@ -9,7 +9,7 @@ This will serve as the parser for incoming modbus requests.
 
 +-------------------------------------------------------------------+*/
 
-void parseRequest(const uint8_t * mBuffer, uint8_t * nBuffer)
+void parseRequest(const uint8_t * mBuffer, int mBufferBytes, uint8_t * nBuffer)
 {
 
 uint16_t *startingAddressPtr,
@@ -21,26 +21,29 @@ uint16_t startingLocation = mBuffer[8] << 8 | mBuffer[9];
 uint16_t numberRegisters = mBuffer[10] << 8| mBuffer[11];
 uint8_t calclatedLength;
 
-    if(DEBUG_MODE)
+#ifdef DEBUG_MODE
     {
-	printf("\n -------- MBAP Header Information --------\n");
+	printf("\n============== MBAP Header Information ==============\n");
 	printf("Transaction ID: %04x\n",transactionId);   // bytes 0,1
 	printf("Protocol ID: %04x\n",protocolId);	  // bytes 2,3
 	printf("Data Length: %04x\n",dataLength);	  // bytes 4,5
     	printf("Unit ID: %02x\n",mBuffer[6]);		  // bytes 6
-    	printf("FC: %02x\n\n",mBuffer[7]);		  // bytes 7
+    	printf("FC: %02x\n",mBuffer[7]);		  // bytes 7
+	printf("======================================================\n");	
 
-	printf(" \n -------- Requested Data --------\n");
+	printf("\n============== Requested Data ========================\n");
 	printf("First requested register: %02x%02x\n",mBuffer[8], mBuffer[9]);
 	printf("Total number of registers requested: %02x%02x\n",mBuffer[10], mBuffer[11]);
+	printf("======================================================\n\n"); 
 
     }
-
+#endif
 	bzero(nBuffer, BUFFER_SIZE);			// zero out response buffer
 	memcpy(nBuffer,mBuffer, 4); 			// copy first 4 bytes into new buffer
 	memcpy( (nBuffer + 6), (mBuffer + 6), 2);	// copy unit ID into new buffer, also FC but this will need to be  through error checking
 	nBuffer[4] = mBuffer[4];			// length  - temporary
 	nBuffer[5] = mBuffer[5];			// length - temporary
+/*
 	startingAddressPtr = analogInputHoldingRegisters + startingLocation;
 
 
@@ -48,15 +51,22 @@ uint8_t calclatedLength;
 	{
 		printf("\nCount = %d\n",count);	
 	}
-
+*/
 	// print buffer - this should be turned into generic callable print buffer function
-        std::cout << "\n\nFrom copied buffer: ";
+	printf("============== Buffers ===============================\n");
+       	std:: cout << "Modubus message in: ";
+        for (int i = 0; i < mBufferBytes; i++)
+        {
+            printf("%02x ", mBuffer[i]);
+        }
+
+        std::cout << "\nFrom copied buffer: ";
         for (int i = 0; i < 12 ; i++)
         {
             printf("%02x ", nBuffer[i]);
         }
-        printf("\n");
-	//-------- end print buffer code segment ---------
+	printf("\n======================================================\n\n...\n\n"); 
+     		//-------- end print buffer code segment ---------
 
 }
 

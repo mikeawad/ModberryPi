@@ -15,7 +15,7 @@ all: $(TARGET)
 
 
 $(TARGET): $(OBJS)
-	$(CMPLR) -o $(TARGET) $(OBJS)
+	$(CMPLR) -DDEBUG_MODE -o $(TARGET) $(OBJS) #running in debug mode
 
 %.o:	%.cpp
 	$(CMPLR) -c $< -o $@
