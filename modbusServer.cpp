@@ -1,16 +1,4 @@
-
 #include "headers.h"
-
-
-using namespace std;
-
-
-// reusable error function, just pass in message
-void error(const char *msg)
-{
-    perror(msg);
-    exit(1);
-}
 
 
 int main(int argc, char *argv[])
@@ -26,9 +14,9 @@ int main(int argc, char *argv[])
     backUpRegister();
     regCounter();
 
-/*+----------------------------------------------------------------------------------+
-Socket connection
-+------------------------------------------------------------------------------------+*/
+/*+---------------------------------------------------------------------------------------------------------------------------+
+				Socket connection
++----------------------------------------------------------------------------------------------------------------------------+*/
 
 
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -41,7 +29,6 @@ Socket connection
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = INADDR_ANY;
     serv_addr.sin_port = htons(502);
-
 
 
     if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0)
@@ -60,19 +47,19 @@ Socket connection
 
     printf("\n*** Server: got connection from %s on port %d *** \n\n", inet_ntoa(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
 
-///+-----------------------------------------------------------------------------------+
-    bzero(incomingBuffer, BUFFER_SIZE);
+//==============================================================================================================================
+
+    bzero(incomingBuffer, BUFFER_SIZE); // zero out the incoming buffer to remove any potential garbage
 
     for(;;)
     {
         byteCount = recv(commsSocket,incomingBuffer, BUFFER_SIZE, 0);
-
         if (byteCount < 0)
         {
             error("error reading from socket");
         }
 
-        parseRequest(incomingBuffer,byteCount, outgoingBuffer);
+	parseRequest(incomingBuffer,byteCount, outgoingBuffer);
 
         int sentVale = send(commsSocket, incomingBuffer, BUFFER_SIZE, 0);
     }

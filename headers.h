@@ -13,21 +13,17 @@
 #include <fstream>		 // file I/O
 
 
-
 //// #DEFINES
 #define BUFFER_SIZE 260
 #define PORT_502 502
 #define HOLDING_OFFSET 40001
 
 
-
-
 /// PROTOTYPES
 void  backUpRegister();
 void regCounter();
-///void parseRequest(const uint8_t * mBuffer, uint8_t * nBuffer);
-void buildresponse(uint8_t * rBuffer);
 void parseRequest(const uint8_t * mBuffer, int mBufferBytes, uint8_t * nBuffer);
+void error(const char *msg);
 
 
 typedef struct mb_msg
