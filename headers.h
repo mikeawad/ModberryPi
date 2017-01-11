@@ -33,6 +33,8 @@ typedef struct mb_msg
 	uint16_t msg_size;
 	uint8_t  unit_id;
 	uint8_t  fc_code;
+	uint16_t starting_address;
+	uint16_t num_reg;
 
 }mb_msg_t;
 
